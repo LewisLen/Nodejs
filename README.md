@@ -66,3 +66,7 @@ app.use(morgan('Blog'));
 
 `morgan`日志比较简洁，配置项比较少。具体可以看[morgan文档](https://github.com/expressjs/morgan/)
 
+### wiston
+
+wiston也是一款非常优秀的日志插件
+

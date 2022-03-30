@@ -10,7 +10,7 @@ const myFormat = printf((info) => {
   return `${info.timestamp} ${level}: ${message}`;
 });
 const winstonLogger = createLogger({
-  level: "error",
+  level: "info",
   format: combine(timestamp({ format: "MMM-DD-YYYY HH:mm:ss" }), myFormat),
   // 输出机制
   transports: [
@@ -18,7 +18,7 @@ const winstonLogger = createLogger({
     new transports.Console(),
     // 文件输出日志信息
     new transports.File({
-      filename: path.join(__dirname, "./error.log"),
+      filename: path.join(__dirname, "../logs/winston.txt"),
     }),
   ],
 });

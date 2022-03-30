@@ -7,6 +7,7 @@ const { createWriteStream } = require("fs");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const moviesRouter = require("./routes/movie");
 
 const app = express();
 
@@ -34,12 +35,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-// const winstonLogger = require("./logs/winston");
-
-// winstonLogger.error();
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/movies", moviesRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
