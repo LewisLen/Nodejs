@@ -25,7 +25,7 @@ ESlint 主要是格式化和校验 js/ts 文件代码，而 Prettier 则可以�
 ```bash
 # 安装相关依赖
 npm install eslint prettier eslint-plugin-prettier eslint-config-prettier eslint-config-airbnb-base --save-dev
-# 生成eslint默认配置文件
+# 生成eslint默认配置文件.eslintrc.js
 eslint --int
 ```
 
@@ -38,3 +38,31 @@ eslint --int
     "source.fixAll.eslint": true,
 },
 ```
+
+
+## 配置日志信息
+
+express-generator 生成的应用带有`morgan`日志应用。
+
+```js
+const logger = require("morgan");
+// 将请求信息打印在控制台，便于开发调试
+app.use(logger("dev"));
+// 将日志信息输出到指定文件目录
+app.use(logger("combined", { stream: accessLogStream }));
+```
+
+自定义日志格式，morgan中有两个概念：
+
+- format：日志格式，本质是代表日志格式的字符串，比如 :method :url :status :res[content-length] - :response-time ms。
+- token：format的组成部分，比如上面的:method、:url即使所谓的token
+
+```js
+// 自定义format，其中包含自定义的token
+morgan.format('Blog', '[Blog] :remote-user [:date[iso]] ":method :url HTTP/:http-version" :status ":user-agent" response-time[digits]');
+// 使用自定义的format
+app.use(morgan('Blog'));
+```
+
+`morgan`日志比较简洁，配置项比较少。具体可以看[morgan文档](https://github.com/expressjs/morgan/)
+
