@@ -9,9 +9,11 @@ const movieSchema = new mongoose.Schema({
   url: { type: String },
   playable: { type: Boolean },
   cover: { type: String },
-  id: { type: String },
+  id: { type: String, index: true, unique: true },
   cover_y: { type: Number },
   is_new: { type: Boolean },
+  create_date: { type: Date, default: Date.now() },
 });
+
 const movieModule = db.model("movies", movieSchema);
 module.exports = movieModule;
