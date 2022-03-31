@@ -14,12 +14,20 @@ const router = express.Router();
 /* GET home page. */
 router.get("/insertNew", (req, res, next) => {
   axios.get(newMoviesUrl).then((response) => {
-    movieModule.insertMany(response.data.subjects, (err, doc) => {
-      res.json({
-        length: doc && doc.length,
-        message: "插入数据成功",
+    movieModule
+      .insertMany(response.data.subjects)
+      .then((docs) => {
+        res.json({
+          length: docs && docs.length,
+          message: "插入数据成功",
+        });
+      })
+      .catch((err) => {
+        res.json({
+          err,
+          message: "插入数据失败",
+        });
       });
-    });
   });
 });
 
@@ -35,13 +43,35 @@ router.get("/insertHigh", (req, res, next) => {
 });
 
 router.get("/query", (req, res, next) => {
-  movieModule.find({ title: req.title }, (err, doc) => {
+  movieModule.findOne({ title: req.query.title }, (err, doc) => {
     res.json({
       length: doc && doc.length,
       message: "查询数据成功",
       data: doc,
     });
   });
+  // .select()
+  // .exec((err, doc) => {
+  //   res.json({
+  //     length: doc && doc.length,
+  //     message: "查询数据成功",
+  //     data: doc,
+  //   });
+  // });
+});
+
+// 条件查询
+router.get("/queryHigh", (req, res, next) => {
+  movieModule
+    .where("rate")
+    .gt(9.5)
+    .exec((err, doc) => {
+      res.json({
+        length: doc && doc.length,
+        message: "查询数据成功",
+        data: doc,
+      });
+    });
 });
 
 module.exports = router;
