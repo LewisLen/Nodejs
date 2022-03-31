@@ -1,2 +1,0 @@
-[Blog] - [2022-03-30T11:44:45.567Z] "GET /?name=len&age=28 HTTP/1.1" 304 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36" 118
-[Blog] - [2022-03-30T11:44:45.585Z] "GET /stylesheets/style.css HTTP/1.1" 304 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36" 1
