@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 const db = require("./db");
 
 const movieSchema = new mongoose.Schema({
-  episodes_info: { type: String },
-  rate: { type: String },
-  cover_x: { type: Number },
-  title: { type: String },
-  url: { type: String },
-  playable: { type: Boolean },
-  cover: { type: String },
+  episodes_info: String,
+  rate: String,
+  cover_x: Number,
+  title: String,
+  url: String,
+  playable: Boolean,
+  cover: String,
   id: { type: String, index: true, unique: true },
-  cover_y: { type: Number },
-  is_new: { type: Boolean },
-  create_date: { type: Date, default: Date.now() },
+  cover_y: Number,
+  is_new: Boolean,
+  create_date: { type: Date, default: Date.now },
 });
 
 const movieModule = db.model("movies", movieSchema);
