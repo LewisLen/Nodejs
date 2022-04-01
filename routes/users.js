@@ -13,7 +13,7 @@ router.get("/", (req, res, next) => {
   res.send("respond with a resource");
 });
 
-router.get("/getusers", async (req, res) => {
+router.get("/query", async (req, res) => {
   const users = await userModule.find({});
   res.send(users);
 });

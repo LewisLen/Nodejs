@@ -5,7 +5,7 @@ mongoose.connect(mongoDBUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   // 限定用户名唯一性
-  useCreateIndex: true,
+  // useCreateIndex: true, // 不支持
 });
 const db = mongoose.connection;
 
