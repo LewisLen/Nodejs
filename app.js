@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const { createWriteStream } = require("fs");
+const expressArtTemplate = require("express-art-template");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -17,9 +18,13 @@ const accessLogStream = createWriteStream(
   { flags: "a", encoding: "utf8" }
 );
 
-// view engine setup
+// 用art-template模板引擎渲染html
+app.engine(".html", expressArtTemplate);
+app.set("views", {
+  debug: process.env.NODE_ENV !== "production",
+});
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+app.set("view engine", ".html");
 
 // 将请求信息打印在控制台，便于开发调试 dev是morgan一种简短的日志模式
 // app.use(morgan("dev"));

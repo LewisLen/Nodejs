@@ -70,3 +70,18 @@ app.use(morgan('Blog'));
 
 wiston也是一款非常优秀的日志插件
 
+
+## 模版渲染
+
+```bash
+# 安装依赖项
+npm i art-template express-art-template
+```
+
+模版渲染：
+
+```js
+app.engine(".html", require('express-art-template'));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", ".html");
+```
