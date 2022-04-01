@@ -4,6 +4,8 @@ const mongoDBUrl = "mongodb://127.0.0.1:27017/blog";
 mongoose.connect(mongoDBUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  // 限定用户名唯一性
+  useCreateIndex: true,
 });
 const db = mongoose.connection;
 
