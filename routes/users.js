@@ -21,8 +21,8 @@ router.get("/query", async (req, res) => {
 // 注册用户
 router.post("/register", (req, res) => {
   const userInfo = userModule.create({
-    username: req.body.username,
-    password: req.body.password,
+    userName: req.body.userName,
+    passWord: req.body.passWord,
   });
   res.send(userInfo);
 });
@@ -31,18 +31,18 @@ router.post("/register", (req, res) => {
 // eslint-disable-next-line consistent-return
 router.post("/login", (req, res) => {
   const userInfo = userModule.findOne({
-    username: req.body.username,
+    userName: req.body.userName,
   });
   if (!userInfo) {
     return res.status(423).send({
       message: "用户不存在",
     });
   }
-  const isPasswordValid = bcrypt.compareSync(
-    req.body.password,
-    userInfo.password
+  const isPassWordValid = bcrypt.compareSync(
+    req.body.passWord,
+    userInfo.passWord
   );
-  if (!isPasswordValid) {
+  if (!isPassWordValid) {
     return res.status(423).send({
       message: "密码不正确",
     });

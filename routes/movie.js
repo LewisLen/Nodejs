@@ -43,11 +43,18 @@ router.get("/insertHigh", (req, res, next) => {
 });
 
 router.get("/query", (req, res, next) => {
-  movieModule.findOne({ title: req.query.title }, (err, doc) => {
+  const params = {};
+  const title = req.query.title || req.body.title;
+  if (req.query.title || req.body.title) {
+    params.title = title;
+  }
+  console.log(params);
+  movieModule.find(params, (err, doc) => {
     res.json({
       length: doc && doc.length,
       message: "查询数据成功",
       data: doc,
+      returnCode: "000000",
     });
   });
   // .select()
