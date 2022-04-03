@@ -10,11 +10,45 @@ const SECRET = "kelly138**138kelly";
 
 // 注册用户
 router.post("/register", (req, res) => {
-  const userInfo = userModule.create({
-    userName: req.body.userName,
-    passWord: req.body.passWord,
-  });
-  res.send(userInfo);
+  const { userName, passWord } = req.body || {};
+  if (userName && passWord) {
+    userModule.findOne({ userName }, (error, doc) => {
+      if (error) {
+        res.status(423).send({
+          message: "查询用户信息失败",
+        });
+      } else if (doc && doc.userName) {
+        res.send({
+          message: "注册用户失败，用户名重复",
+          returnCode: "000000",
+        });
+      } else {
+        userModule.create(
+          {
+            userName,
+            passWord,
+          },
+          (err, data) => {
+            if (err) {
+              res.status(423).send({
+                message: "注册失败",
+              });
+            } else {
+              res.send({
+                message: "登录成功",
+                returnCode: "000000",
+                userName: data.userName,
+              });
+            }
+          }
+        );
+      }
+    });
+  } else {
+    res.status(423).send({
+      message: "注册失败，用户名或密码不存在",
+    });
+  }
 });
 
 // 登录
@@ -47,7 +81,7 @@ router.post("/login", (req, res) => {
       },
       SECRET,
       // 有效时间
-      { expiresIn: "120ms" }
+      { expiresIn: 15 * 60 }
     );
     res.send({
       message: "登录成功",
@@ -62,19 +96,25 @@ router.post("/login", (req, res) => {
 const auth = async (req, res, next) => {
   // 获取客户端请求头的token
   const rawToken = String(req.headers.authorization).split(" ").pop();
-  const tokenData = jwt.verify(rawToken, SECRET);
+  try {
+    const tokenData = jwt.verify(rawToken, SECRET);
+    const { id } = tokenData || {};
+    req.user = await userModule.findOne({ id });
+  } catch (err) {
+    console.log(err);
+  }
   // 获取用户id
-  const { id } = tokenData;
-  req.user = await userModule.findById(id);
   next();
 };
 
 router.get("/query", auth, async (req, res) => {
+  console.log(req.user);
   const { userName } = req.user || {};
   res.send({
     userName,
     message: "查询用户信息",
     returnCode: "000000",
+    data: req.user,
   });
 });
 

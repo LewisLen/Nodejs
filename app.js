@@ -61,19 +61,24 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
+  console.log(err);
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-  if (err.name === "UnauthorizedError" || "JsonWebTokenError") {
-    return res.send({
-      status: 401,
-      message: "无效的token",
+  if (err.name === "CastError") {
+    return res.status(400).send({ error: "malformatted id" });
+  }
+  if (err.name === "ValidationError") {
+    return res.status(400).json({ error: err.message });
+  }
+  if (err.name === "JsonWebTokenError") {
+    return res.status(401).json({
+      error: "invalid token",
     });
   }
   if (err.name === "TokenExpiredError") {
-    return res.send({
-      status: 402,
-      message: "token已过期",
+    return res.status(401).json({
+      error: "token expired",
     });
   }
   // 其它原因导致的错误
