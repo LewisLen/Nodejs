@@ -36,6 +36,7 @@ morgan.format(
 // 使用自定义的format
 app.use(morgan("Blog"));
 app.use(morgan("Blog", { stream: accessLogStream }));
+// 解析表单数据
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -63,10 +64,21 @@ app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
+  if (err.name === "UnauthorizedError" || "JsonWebTokenError") {
+    return res.send({
+      status: 401,
+      message: "无效的token",
+    });
+  }
+  if (err.name === "TokenExpiredError") {
+    return res.send({
+      status: 402,
+      message: "token已过期",
+    });
+  }
+  // 其它原因导致的错误
   res.status(err.status || 500);
-  res.render("error");
+  res.render({ title: "发生了错误", message: "你来到了一片荒漠。。。" });
 });
 
 module.exports = app;

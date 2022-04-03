@@ -20,6 +20,7 @@ router.get("/insertNew", (req, res, next) => {
         res.json({
           length: docs && docs.length,
           message: "插入数据成功",
+          returnCode: "000000",
         });
       })
       .catch((err) => {
@@ -37,6 +38,7 @@ router.get("/insertHigh", (req, res, next) => {
       res.json({
         length: doc && doc.length,
         message: "插入数据成功",
+        returnCode: "000000",
       });
     });
   });

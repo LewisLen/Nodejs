@@ -85,3 +85,17 @@ app.engine(".html", require('express-art-template'));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", ".html");
 ```
+
+
+## 解决跨域问题
+
+```js
+// 在路由前加上
+app.all("*", (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Content-Type", "application/json;charset=utf-8");
+  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
+  next();
+});
+```
