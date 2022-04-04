@@ -80,8 +80,8 @@ router.post("/login", (req, res) => {
         userName,
       },
       SECRET,
-      // 有效时间
-      { expiresIn: 15 * 60 }
+      // 有效时间 格式60*60*24单位是秒
+      { expiresIn: 10 * 60 }
     );
     res.send({
       message: "登录成功",
@@ -92,29 +92,39 @@ router.post("/login", (req, res) => {
   });
 });
 
-// 校验授权
+// 校验token
 const auth = async (req, res, next) => {
   // 获取客户端请求头的token
   const rawToken = String(req.headers.authorization).split(" ").pop();
   try {
     const tokenData = jwt.verify(rawToken, SECRET);
     const { id } = tokenData || {};
-    req.user = await userModule.findOne({ id });
+    req.user = await userModule.findOne({ _id: id });
+    // 获取用户id
+    next();
   } catch (err) {
-    console.log(err);
+    // 捕获token过期错误
+    if (err.name === "TokenExpiredError") {
+      res.send({
+        message: "token已过期",
+        returnCode: "000996",
+      });
+    }
+    if (err.name === "JsonWebTokenError") {
+      res.send({
+        message: "无效token",
+        returnCode: "000996",
+      });
+    }
   }
-  // 获取用户id
-  next();
 };
 
 router.get("/query", auth, async (req, res) => {
-  console.log(req.user);
   const { userName } = req.user || {};
   res.send({
     userName,
     message: "查询用户信息",
     returnCode: "000000",
-    data: req.user,
   });
 });
 
