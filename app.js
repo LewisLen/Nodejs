@@ -6,9 +6,8 @@ const morgan = require("morgan");
 const { createWriteStream } = require("fs");
 const expressArtTemplate = require("express-art-template");
 
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
-const moviesRouter = require("./routes/movie");
+// 路由
+const routers = require("./routes");
 
 const app = express();
 
@@ -42,6 +41,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// 解决跨域问题，放在所有的路由前面
 app.all("*", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
@@ -50,9 +50,8 @@ app.all("*", (req, res, next) => {
   next();
 });
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/movies", moviesRouter);
+// 路由
+routers(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -81,8 +80,8 @@ app.use((err, req, res, next) => {
     });
   }
   // 其它原因导致的错误
-  res.status(err.status || 500);
-  res.render({ title: "发生了错误", message: "你来到了一片荒漠。。。" });
+  res.status(err.status || 503);
+  res.render("发生了未知错误！");
 });
 
 module.exports = app;

@@ -1,9 +1,7 @@
-const express = require("express");
+const usersRouter = require("./users");
+const moviesRouter = require("./movie");
 
-const router = express.Router();
-/* GET home page. */
-router.get("/", (req, res, next) => {
-  res.render("index", { title: "Express" });
-});
-
-module.exports = router;
+module.exports = (app) => {
+  app.use("/users", usersRouter);
+  app.use("/movies", moviesRouter);
+};

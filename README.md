@@ -1,12 +1,13 @@
 # Nodejs
 
-About Node.js projcet and express application。
+About Node.js project and express application。
+
 关于Node.js的体验应用，涉及到的功能点有：
 
 - Node.js 内置的核心模块
 - express 框架
 - mongodb 数据库
-
+- jwt 生成校验token的跨域方案
 
 ## 安装初始化
 
@@ -40,6 +41,20 @@ eslint --int
 ```
 
 
+## 目录结构
+
+采用的是 MVC 模式，其实也可以使用功能作为分类，每个功能中包含 MVC，主要是看个人习惯。
+
+- bin：启动脚本语句
+- logs：日志信息
+- modules：数据模型
+- routes：路由，即请求接口路径
+- controller: 逻辑处理
+- utils：封装的方法
+- views：视图，更多用于前后端不分离传统开发模式
+- app.js： 入口文件
+
+
 ## 配置日志信息
 
 express-generator 生成的应用带有`morgan`日志应用。
@@ -66,7 +81,7 @@ app.use(morgan('Blog'));
 
 `morgan`日志比较简洁，配置项比较少。具体可以看[morgan文档](https://github.com/expressjs/morgan/)
 
-### wiston
+### wiston(推荐)
 
 wiston也是一款非常优秀的日志插件
 

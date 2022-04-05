@@ -46,6 +46,7 @@ module.exports = {
         "no-alert": 2,
         "no-cond-assign": 2, // 禁止在条件表达式中使用赋值语句
         "consistent-return": 0,
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "class-methods-use-this": 0
     }
 }
