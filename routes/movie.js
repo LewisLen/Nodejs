@@ -9,5 +9,9 @@ router.get("/insertNew", movie.insertNewMovie);
 router.get("/insertHigh", movie.insertHigh);
 // 查询
 router.get("/query", movie.query);
+// 删除
+router.post("/delete", movie.deleteMovie);
+// 更新
+router.post("/update", movie.updateMovie);
 
 module.exports = router;

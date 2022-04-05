@@ -79,6 +79,60 @@ class Movie {
       });
     });
   }
+
+  deleteMovie(req, res, next) {
+    const id = req.query.id || req.body.id || "";
+    if (req.query.id || req.body.id) {
+      movieModule.deleteOne({ id }, (err, docs) => {
+        if (err) {
+          res.json({
+            message: "删除失败",
+            returnCode: "000000",
+            err,
+          });
+        } else {
+          res.json({
+            length: docs && docs.length,
+            message: `删除${docs.title}成功`,
+            data: docs,
+            returnCode: "000000",
+          });
+        }
+      });
+    } else {
+      res.json({
+        message: "请选择删除项",
+        returnCode: "000000",
+      });
+    }
+  }
+
+  updateMovie(req, res, next) {
+    const { id, title, rate } = req.body || {};
+    if (id) {
+      movieModule.updateOne({ id }, { $set: { title, rate } }, (err, docs) => {
+        if (err) {
+          res.json({
+            message: "更新失败",
+            returnCode: "000000",
+            err,
+          });
+        } else {
+          res.json({
+            length: docs && docs.length,
+            message: `更新${docs.title}成功`,
+            data: docs,
+            returnCode: "000000",
+          });
+        }
+      });
+    } else {
+      res.json({
+        message: "请选择删除项",
+        returnCode: "000000",
+      });
+    }
+  }
 }
 
 module.exports = new Movie();
