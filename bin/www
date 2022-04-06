@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var debug = require('debug')('express-mongodb:server');
 var http = require('http');
@@ -20,6 +15,30 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * 新增一个聊天室的功能，主要是利用socket.io 客户端则是socket.io-client
+ */
+const io = require('socket.io')(server, { cors: true }); // cors可加可不加
+const {getNowDate} = require('../utils/utils')
+io.on("connect", (serverSocket) => {
+  serverSocket.emit("hello", "欢迎来到随心聊天室");
+});
+
+io.on("connection", (serverSocket) => {
+  serverSocket.on("client-send-msg", (msg) => {
+    console.log(msg);
+      io.emit("serve-send-msg", {
+        user: '网友',
+        msg,
+        msgDate: getNowDate()
+      });
+    });
+});
+
+
+
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -77,14 +96,13 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
+    console.log(bind)
   debug('Listening on ' + bind);
 }
+
+module.exports = server
