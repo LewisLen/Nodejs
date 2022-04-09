@@ -35,9 +35,9 @@ morgan.format(
 // 使用自定义的format
 app.use(morgan("Blog"));
 app.use(morgan("Blog", { stream: accessLogStream }));
-// 解析表单数据
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// 解析表单数据，默认情况下，如果不配置处理表单数据的中间件，则req.body默认等于 undefined
+app.use(express.json()); // 4.16.0版本+
+app.use(express.urlencoded({ extended: false })); // 4.16.0版本+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -58,7 +58,7 @@ app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
+// 错误处理中间件 error handler
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;

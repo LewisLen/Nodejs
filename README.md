@@ -1,4 +1,4 @@
-# Nodejs
+# Nodejs+Express
 
 About Node.js project and express application。
 
@@ -53,6 +53,41 @@ eslint --int
 - utils：封装的方法
 - views：视图，更多用于前后端不分离传统开发模式
 - app.js： 入口文件
+
+
+## 中间件
+
+其实可以理解成一个函数，主要有req,res,next三个参数，next用于流转到下一个参数
+
+- 应用级别的中间件，app.use()、app.get()、app.post()应用到app实例中间件
+- 路由级别的中间件，express.Router()
+- 错误级别的中间件，放在所有路由之后
+- Express 内置的中间件。如express.json和express.urlencoded
+- 第三方的中间件。如用于解析表单数据的中间件，body-parser
+
+```js
+// 全局中间件
+app.use((req,res,next) => {
+  console.log('这是一个全局中间件，所有的路由都会先经过这个函数处理')
+  next();
+})
+// 局部中间件
+app.get('/user',auth,(req,res) => {
+  console.log('auth为局部中间件')
+})
+// 调用多个局部中间件
+app.get('/user',auth,fn,(req,res) => {
+  console.log('auth为局部中间件')
+})
+// 或者
+app.get('/user',[auth,fn],(req,res) => {
+  console.log('auth为局部中间件')
+})
+app.use((error,req,res,next)=> {
+  console.log('错误中间件，放在所有路由之后')
+  res.send('发生了一个错误')
+})
+```
 
 
 ## 配置日志信息

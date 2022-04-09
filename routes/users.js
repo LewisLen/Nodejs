@@ -119,6 +119,7 @@ const auth = async (req, res, next) => {
   }
 };
 
+// auth为局部生效的中间件
 router.get("/query", auth, async (req, res) => {
   const { userName } = req.user || {};
   res.send({
