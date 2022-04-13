@@ -70,6 +70,9 @@ class Movie {
       params.title = title;
     }
     const movie = movieModule.find(params);
+    // 按条件筛选
+    // pageSize: 5, pageNumber: 2, skip: (pageNumber - 1) * pageNumber
+    // movieModule.find(params).skip(1).limit(5);
     movie.exec((err, doc) => {
       res.json({
         length: doc && doc.length,
