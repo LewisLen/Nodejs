@@ -30,6 +30,33 @@ exports.age = 18
 > require()模块时，得到的永远是 module.exports 指向的对象。所以不建议在同一个模块当中同时使用 exports 和 module.exports ，而是**推荐单独使用 module.exports 来输出对象**
 
 
+## process对象
+
+process包含许多信息和方法
+
+- exit() 中止Node程序的方式之一
+- env 对象包含环境变量
+- cwd 返回应用程序当前的工作目录
+
+## 启动服务
+
+用HTTP模块开启服务之后，可以使用命令行程序`crul`测试（或者使用 Wget）
+
+```bash
+# 访问web资源
+curl -i http://localhost:3030
+# 返回值
+HTTP/1.1 200 OK
+Content-Length: 14
+Content-Type: text/plain
+Date: Fri, 29 Apr 2022 09:22:59 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+Hello World!!
+```
+
+
 ## require()模块的加载机制
 
 1. **模块在第一次加载后会被缓存**，这也意味着多次调用 require() 不会导致模块代码被执行多次。
