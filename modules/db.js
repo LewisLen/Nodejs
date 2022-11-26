@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const mongoDBUrl = "mongodb://127.0.0.1:27017/blog";
+const mongoDBUrl = "mongodb://localhost:27017/products";
 mongoose.connect(mongoDBUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
