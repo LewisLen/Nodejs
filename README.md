@@ -92,7 +92,7 @@ app.use((error,req,res,next)=> {
 
 ## 配置日志信息
 
-express-generator 生成的应用带有`morgan`日志应用。
+`express-generator`生成的应用带有`morgan`日志应用。
 
 ```js
 const logger = require("morgan");
@@ -140,7 +140,7 @@ app.set("view engine", ".html");
 ## 解决跨域问题
 
 ```js
-// 在路由前加上
+// 在路由加载前加上
 app.all("*", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
