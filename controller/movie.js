@@ -75,9 +75,11 @@ class Movie {
     // movieModule.find(params).skip(1).limit(5);
     movie.exec((err, doc) => {
       res.json({
-        length: doc && doc.length,
         message: "查询数据成功",
-        data: doc,
+        data: {
+          movieList: doc,
+          sizes: doc && doc.length,
+        },
         returnCode: "000000",
       });
     });
