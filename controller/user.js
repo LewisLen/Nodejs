@@ -2,7 +2,6 @@ const userModule = require("../modules/users");
 
 class Users {
   register(req, res, next) {
-    console.log(this);
     const { userName, passWord } = req.body || {};
     if (userName && passWord) {
       userModule.findOne({ userName }, (error, doc) => {
